@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 export default function Challenge() {
 
   const [stock, setStock] = useState([]);
@@ -7,7 +7,7 @@ export default function Challenge() {
 
   const getLowStock = async () => {
     console.log("getting low stock items");
-    const response = await fetch("http://localhost:4567/low-stock")
+    await fetch("http://localhost:4567/low-stock")
       .then((res) => res.json())
       .then((res) => setStock(res.array))
       .then(console.log(stock));
@@ -15,10 +15,9 @@ export default function Challenge() {
 
   const getTotalCost = async () => {
     console.log("getting total cost");
-    
     const json = JSON.stringify(Object.fromEntries(products));
     console.log(json);
-    const response = await fetch("http://localhost:4567/restock-cost",{
+    await fetch("http://localhost:4567/restock-cost",{
       method: 'POST',
       body: json,
     })
@@ -47,14 +46,7 @@ export default function Challenge() {
         </thead>
         <tbody>
           {
-          /* 
-          TODO: Create an <ItemRow /> component that's rendered for every inventory item. The component
-          will need an input element in the Order Amount column that will take in the order amount and 
-          update the application state appropriately.
-          */
             stock.map(item => {
-              
-              
               return(
                 <React.Fragment>
                   <tr>
@@ -70,12 +62,7 @@ export default function Challenge() {
           }
         </tbody>
       </table>
-      {/* TODO: Display total cost returned from the server */}
       <div>Total Cost: ${Math.round(totalCost * 100)/ 100} </div>
-      
-      {/* 
-      TODO: Add event handlers to these buttons that use the Java API to perform their relative actions.
-      */}
       <button onClick = {getLowStock}>
         Get Low-Stock Items
       </button>
