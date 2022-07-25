@@ -6,7 +6,6 @@ export default function Challenge() {
   const [products, setProducts] = useState(new Map([]));
 
   const getLowStock = async () => {
-    console.log("getting low stock items");
     await fetch("http://localhost:4567/low-stock")
       .then((res) => res.json())
       .then((res) => setStock(res.array))
@@ -14,21 +13,17 @@ export default function Challenge() {
   }
 
   const getTotalCost = async () => {
-    console.log("getting total cost");
     const json = JSON.stringify(Object.fromEntries(products));
-    console.log(json);
     await fetch("http://localhost:4567/restock-cost",{
       method: 'POST',
       body: json,
     })
       .then((res) => res.json())
-      .then((res) => setTotalCost(res.cost))
-      .then(console.log(totalCost));
+      .then((res) => setTotalCost(res.cost));
   }
 
   const updateProductMap = (name, amount) => {
     setProducts(new Map(products.set(name, Number(amount))));
-    console.log("name: " + name + " ; amount: " + amount);
   }
 
   
