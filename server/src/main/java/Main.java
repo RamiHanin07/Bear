@@ -104,18 +104,24 @@ public class Main {
             //Final calculations now that lowest cost for each item has been found and stored in hashmap.
             ObjectMapper mapper = new ObjectMapper();
             HashMap<String, Integer> requestedProducts = mapper.readValue(request.body(), HashMap.class);
-            for(String key : requestedProducts.keySet()){
-                try {
-                    totalCost += Products.get(key) * (requestedProducts.get(key));
-                }catch(Exception e){
-                    System.out.println("Item: " + key + " is not requesting an integer amount of items");
-                }
-            }
+            totalCost = returnCost(requestedProducts, Products);
             finalCost.put("cost", totalCost);
 
 
             return finalCost;
         });
 
+    }
+
+    public static float returnCost(HashMap<String, Integer> requestedProducts, HashMap<String, Float> Products){
+        float totalCost = 0;
+        for(String key : requestedProducts.keySet()){
+            try {
+                totalCost += Products.get(key) * (requestedProducts.get(key));
+            }catch(Exception e){
+                System.out.println("Item: " + key + " is not requesting an integer amount of items");
+            }
+        }
+        return totalCost;
     }
 }
